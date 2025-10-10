@@ -4,7 +4,7 @@
   "start_url": "/dp_intern/DP_Aktuell_Anita_Cseke.html",
   "display": "standalone",
   "icons": [
-    { "src": "/dp_intern/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/dp_intern/icon-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/dp_intern/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/dp_intern/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
