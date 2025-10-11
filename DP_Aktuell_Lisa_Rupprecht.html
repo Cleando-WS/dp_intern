@@ -122,6 +122,24 @@
       font-weight:900;
     }
   </style>
+
+  <!-- Kopf für DP_Aktuell_Lisa_Rupprecht.html - vor </head> einfügen -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- iOS -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="DP_Aktuell_Lisa_Rupprecht">
+<link rel="apple-touch-icon" href="/dp_intern/icon-192.png?v=01">
+<!-- Android / PWA -->
+<link rel="manifest" href="/dp_intern/manifest/manifest_DP_Aktuell_Lisa_Rupprecht.json?v=01">
+<meta name="theme-color" content="#ffffff">
+<!-- Service Worker (optional) -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/dp_intern/sw.js?v=01').catch(console.error);
+}
+</script>
+
 </head>
 <body>
   <div class="glow g1"></div>
