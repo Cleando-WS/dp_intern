@@ -36,12 +36,30 @@
     .muted { color:var(--muted); margin:0 0 16px 0; }
     .row { display:flex; gap:12px; margin:12px 0; flex-wrap:wrap; }
     .row > * { flex:1 1 220px; }
-    input[type="text"] { width:100%; padding:12px 14px; border-radius:12px; border:1px solid #263247; background:#0f172a; color:var(--fg); outline:none; }
-    .listbox { border:1px solid #263247; border-radius:12px; background:#0f172a; max-height:380px; overflow:auto; padding:6px; }
-    .item { display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-radius:10px; cursor:pointer; user-select:none; }
+
+    /* Dropdown-Button */
+    .selector {
+      width:100%; display:flex; align-items:center; justify-content:space-between;
+      padding:12px 14px; border-radius:12px; border:1px solid #263247;
+      background:#0f172a; color:var(--fg); cursor:pointer; font-weight:600;
+    }
+    .placeholder { color:#7f8aa0; }
+    .chev { opacity:.7; font-size:1.05rem; }
+
+    /* Panel (Dropdown-Liste) */
+    .panel {
+      display:none; /* initial zu */
+      margin-top:10px; border:1px solid #263247; border-radius:12px; background:#0f172a;
+      padding:10px;
+    }
+    .panel.open { display:block; }
+    .search { width:100%; padding:10px 12px; border-radius:10px; border:1px solid #263247; background:#0e1527; color:var(--fg); outline:none; }
+    .listbox { margin-top:10px; max-height:360px; overflow:auto; border-radius:10px; }
+    .item { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:10px; cursor:pointer; user-select:none; }
     .item:hover { background:#0d1b34; }
     .item.active { outline:2px solid #3b82f6; background:#0d1b34; }
-    .empty { color:var(--muted); padding:14px; text-align:center; }
+    .empty { color:var(--muted); padding:12px; text-align:center; }
+
     button { width:100%; padding:12px 16px; border-radius:12px; border:1px solid transparent; font-weight:700; cursor:pointer; }
     .primary { background:linear-gradient(135deg,#22c55e,#38bdf8); color:#07131f; }
     .secondary { background:#0f172a; color:var(--fg); border-color:#263247; }
@@ -60,6 +78,25 @@
     }
 
     let items = [], filtered = [];
+    let selected = null; // {display_name, file_base}
+
+    function setSelectorLabel(name) {
+      const label = $('#selectorLabel');
+      const isPlaceholder = !name;
+      label.textContent = isPlaceholder ? 'Mitarbeiter wählen' : name;
+      label.classList.toggle('placeholder', isPlaceholder);
+    }
+
+    function togglePanel() {
+      $('.panel').classList.toggle('open');
+      if ($('.panel').classList.contains('open')) {
+        $('#search').focus();
+      }
+    }
+
+    function closePanel() {
+      $('.panel').classList.remove('open');
+    }
 
     function renderList() {
       const box = $('.listbox');
@@ -82,38 +119,34 @@
         row.dataset.fileBase = it.file_base;
         row.innerHTML = `<span>${it.display_name}</span><span style="opacity:.6">›</span>`;
 
-        if (it.file_base === last) row.classList.add('active');
+        if ((selected && selected.file_base === it.file_base) || (!selected && it.file_base === last)) {
+          row.classList.add('active');
+        }
 
-        row.addEventListener('click', () => selectRow(row));
+        row.addEventListener('click', () => choose(it));
         row.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') openSelected();
-          if (e.key === 'c' && (e.ctrlKey || e.metaKey)) copySelected();
-          if (e.key === 'ArrowDown') focusSibling(row, +1);
-          if (e.key === 'ArrowUp')   focusSibling(row, -1);
+          if (e.key === 'Enter') choose(it);
         });
 
         box.appendChild(row);
       }
-
-      if (!$('.item.active') && $('.item')) selectRow($('.item'));
     }
 
-    function focusSibling(row, dir) {
-      const all = $$('.item');
-      const idx = all.indexOf(row);
-      const next = all[idx + dir];
-      if (next) next.focus();
+    function applyFilter() {
+      const q = $('#search').value.trim().toLowerCase();
+      filtered = q ? items.filter(x => x.display_name.toLowerCase().includes(q)) : items.slice();
+      renderList();
     }
 
-    function selectRow(row) {
-      $$('.item.active').forEach(el => el.classList.remove('active'));
-      row.classList.add('active');
-      localStorage.setItem(KEY_LAST, row.dataset.fileBase);
-    }
-
-    function getActive() {
-      const a = $('.item.active');
-      return a ? a.dataset.fileBase : null;
+    function choose(it) {
+      selected = it;
+      localStorage.setItem(KEY_LAST, it.file_base);
+      setSelectorLabel(it.display_name);
+      closePanel();
+      // refresh active state
+      $$('.item').forEach(el => {
+        el.classList.toggle('active', el.dataset.fileBase === it.file_base);
+      });
     }
 
     async function loadList() {
@@ -130,6 +163,22 @@
           .sort((a, b) => a.display_name.localeCompare(b.display_name, 'de', { sensitivity: 'base' }));
 
         filtered = items.slice();
+
+        // Startzustand: KEINE Liste offen, Button mit Platzhalter.
+        // Falls es einen gespeicherten letzten Wert gibt -> nur Label setzen (Liste bleibt zu).
+        const last = localStorage.getItem(KEY_LAST);
+        if (last) {
+          const found = items.find(x => x.file_base === last);
+          if (found) {
+            selected = found;
+            setSelectorLabel(found.display_name);
+          } else {
+            setSelectorLabel(null);
+          }
+        } else {
+          setSelectorLabel(null);
+        }
+
         st.textContent = '';
         renderList();
       } catch {
@@ -137,32 +186,22 @@
       }
     }
 
-    function applyFilter() {
-      const q = $('#search').value.trim().toLowerCase();
-      filtered = q ? items.filter(x => x.display_name.toLowerCase().includes(q)) : items.slice();
-      renderList();
-    }
-
     function openSelected() {
-      const fb = getActive();
-      if (fb) location.href = "/dp_intern/" + fb + ".html";
+      if (!selected) { alert('Bitte zuerst Mitarbeiter wählen.'); return; }
+      location.href = "/dp_intern/" + selected.file_base + ".html";
     }
 
     async function copySelected() {
-      const fb = getActive();
-      if (!fb) return;
-      const url = absoluteUrl(fb);
+      if (!selected) { alert('Bitte zuerst Mitarbeiter wählen.'); return; }
+      const url = absoluteUrl(selected.file_base);
       const st = $('.status');
       try {
         if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(url);
         } else {
           const ta = document.createElement('textarea');
-          ta.value = url;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
+          ta.value = url; document.body.appendChild(ta);
+          ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
         }
         st.textContent = 'Link kopiert.';
         setTimeout(() => st.textContent = '', 2000);
@@ -173,10 +212,27 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       loadList();
+
+      // Dropdown-Button
+      $('#selector').addEventListener('click', togglePanel);
+
+      // Suche im Panel
       $('#search').addEventListener('input', applyFilter);
+
+      // Aktionen
       $('#open').addEventListener('click', openSelected);
       $('#copy').addEventListener('click', copySelected);
 
+      // Klick außerhalb schließt das Panel
+      document.addEventListener('click', (e) => {
+        const panel = $('.panel');
+        const selBtn = $('#selector');
+        if (!panel.contains(e.target) && !selBtn.contains(e.target)) {
+          closePanel();
+        }
+      });
+
+      // Service Worker
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/dp_intern/sw.js?v=01').catch(console.error);
       }
@@ -189,11 +245,19 @@
       <h1>Dienstpläne</h1>
       <p class="muted">Mitarbeiter auswählen und Dienstplan öffnen oder Link kopieren.</p>
 
+      <!-- Dropdown-Button (geschlossen, zeigt Platzhalter/Name) -->
       <div class="row">
-        <input id="search" type="text" placeholder="Suche nach Name …" aria-label="Suche">
+        <button id="selector" type="button" class="selector" aria-haspopup="listbox" aria-expanded="false">
+          <span id="selectorLabel" class="placeholder">Mitarbeiter wählen</span>
+          <span class="chev">▾</span>
+        </button>
       </div>
 
-      <div class="listbox" role="listbox" aria-label="Mitarbeiterliste"></div>
+      <!-- Panel mit Suche + scrollbarer Liste (anfangs verborgen) -->
+      <div class="panel" role="region" aria-label="Auswahl">
+        <input id="search" class="search" type="text" placeholder="Suche nach Name …" aria-label="Suche">
+        <div class="listbox" role="listbox" aria-label="Mitarbeiterliste"></div>
+      </div>
 
       <div class="row">
         <button id="open" class="primary">Öffnen</button>
