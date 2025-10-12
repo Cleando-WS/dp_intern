@@ -69,7 +69,7 @@
 
   <script>
     const LINKS_URL = "/dp_intern/links/Onedrive-Links.json?v=01";
-    const KEY_LAST  = "dp_all_last";
+    const KEY_LAST  = "dp_all_last"; // wir speichern weiterhin nach Auswahl, lesen es aber NICHT beim Start
     const $  = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
 
@@ -110,8 +110,7 @@
         return;
       }
 
-      const last = localStorage.getItem(KEY_LAST);
-
+      // Keine Vorauswahl mehr. Nur markieren, wenn 'selected' gesetzt ist.
       for (const it of filtered) {
         const row = document.createElement('div');
         row.className = 'item';
@@ -119,7 +118,7 @@
         row.dataset.fileBase = it.file_base;
         row.innerHTML = `<span>${it.display_name}</span><span style="opacity:.6">›</span>`;
 
-        if ((selected && selected.file_base === it.file_base) || (!selected && it.file_base === last)) {
+        if (selected && selected.file_base === it.file_base) {
           row.classList.add('active');
         }
 
@@ -140,10 +139,10 @@
 
     function choose(it) {
       selected = it;
+      // Speichern weiterhin erlaubt – aber beim Start wird NICHT ausgelesen.
       localStorage.setItem(KEY_LAST, it.file_base);
       setSelectorLabel(it.display_name);
       closePanel();
-      // refresh active state
       $$('.item').forEach(el => {
         el.classList.toggle('active', el.dataset.fileBase === it.file_base);
       });
@@ -164,20 +163,9 @@
 
         filtered = items.slice();
 
-        // Startzustand: KEINE Liste offen, Button mit Platzhalter.
-        // Falls es einen gespeicherten letzten Wert gibt -> nur Label setzen (Liste bleibt zu).
-        const last = localStorage.getItem(KEY_LAST);
-        if (last) {
-          const found = items.find(x => x.file_base === last);
-          if (found) {
-            selected = found;
-            setSelectorLabel(found.display_name);
-          } else {
-            setSelectorLabel(null);
-          }
-        } else {
-          setSelectorLabel(null);
-        }
+        // IMMER mit Platzhalter starten – NICHT aus localStorage vorwählen.
+        selected = null;
+        setSelectorLabel(null);
 
         st.textContent = '';
         renderList();
@@ -201,7 +189,8 @@
         } else {
           const ta = document.createElement('textarea');
           ta.value = url; document.body.appendChild(ta);
-          ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+          ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta);
         }
         st.textContent = 'Link kopiert.';
         setTimeout(() => st.textContent = '', 2000);
