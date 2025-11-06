@@ -197,32 +197,10 @@ if ('serviceWorker' in navigator) {
       if ($title) $title.textContent = DATEINAME_ANZEIGE || "Dienstplan";
       if ($info)  $info.textContent  = INFO_TEXT || "Der Link wird automatisch aktualisiert.";
       
-if ($cta){
-  $cta.textContent = (BUTTON_TEXT || "ÖFFNEN").toUpperCase();
-
-  const LINKS_URL = "/dp_intern/links/Onedrive-Links.json?v=01";
-  const fileBase = "DP_Aktuell_Anita_Cseke";
-
-  fetch(LINKS_URL, { cache: "no-cache" })
-    .then(res => res.json())
-    .then(list => {
-      const entry = list.find(x => x.file_base === fileBase);
-      if (entry && entry.url) {
-        $cta.href = entry.url;
-      } else {
-        throw new Error("Kein passender Eintrag gefunden");
+      if ($cta){
+        $cta.textContent = (BUTTON_TEXT || "ÖFFNEN").toUpperCase();
+        $cta.href = LINK_ZUR_PDF || "#";
       }
-    })
-    .catch(err => {
-      console.error(err);
-      $cta.href = "#";
-      $cta.addEventListener("click", ev => {
-        ev.preventDefault();
-        alert("Dienstplan-Link ist aktuell nicht verfügbar. Bitte später erneut versuchen.");
-      }, { once: true });
-    });
-}
-
       if ($fname) $fname.textContent = (DATEINAME_ANZEIGE || "DP_Aktuell") + ".pdf";
       if ($tHead) $tHead.textContent = TIPP_HEADLINE || "Tipps:";
       if ($t1) $t1.textContent = TIPP_1 || "";
