@@ -5,37 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DP_Aktuell_Anita_Cseke</title>
 
-
   <!-- ==================================================
        KONFIGURATION
        ================================================== -->
-  <!-- Farben: Hier die HEX-Werte anpassen (VS Code Color-Picker verfügbar) -->
   <style id="config-colors">
     :root{
-      --bg-base: #0b1220;   /* Seitenhintergrund */
-      --text:    #e7eefb;   /* Textfarbe */
-      --muted:   #9db0c7;   /* Sekundärtext */
-      --prim:    #22c55e;   /* Primär (Logo-Grün) */
-      --sek:     #38bdf8;   /* Sekundär (Logo-Blau) */
-      --a1:      #9bffb0;   /* Akzent hell Grün */
-      --a2:      #b4e7ff;   /* Akzent hell Blau */
+      --bg-base: #0b1220;
+      --text:    #e7eefb;
+      --muted:   #9db0c7;
+      --prim:    #22c55e;
+      --sek:     #38bdf8;
+      --a1:      #9bffb0;
+      --a2:      #b4e7ff;
     }
   </style>
 
-  <!-- Texte/Links: Nur hier ändern -->
+  <!-- Texte/Links -->
   <script>
     const TITEL_SEITE       = "DP_Aktuell_Anita_Cseke";
     const DATEINAME_ANZEIGE = "DP_Aktuell_Anita_Cseke";
-    const LINK_ZUR_PDF      = "https://cleando6776-my.sharepoint.com/:b:/g/personal/office_cleando_lu/EWZiQrIB9VBDiFJKXBeAk7sBUQKH4nqR8cww4T9p4kUDYA"; // <— HIER einsetzen
     const BUTTON_TEXT       = "Dienstplan öffnen";
     const INFO_TEXT         = "Tippe auf Öffnen. Der Link zeigt immer die aktuelle Version des Dienstplans.";
-    const TIPP_HEADLINE     = "Tipps:"; // Überschrift für Tipps-Block (z. B. "Hinweise:")
+    const TIPP_HEADLINE     = "Tipps:";
     const TIPP_1            = "Als Favorit speichern – der Link bleibt dauerhaft gleich.";
     const TIPP_2            = "Zum Startbildschirm hinzufügen für schnellen Zugriff.";
     const HINWEIS_ALTPLAN   = "Nach der Aktualisierung auf die nächste Woche kannst du ältere Dienstpläne bei Bedarf jederzeit anfordern.";
-
   </script>
 
+  <!-- ==================================================
+       DESIGN
+       ================================================== -->
   <style>
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -50,6 +49,7 @@
       display:flex;align-items:center;justify-content:center;padding:28px;
       overflow:hidden;
     }
+
     .glow{
       position:fixed;inset:auto;
       width:60vmax;height:60vmax;border-radius:50%;
@@ -60,6 +60,7 @@
     }
     .glow.g1{ top:20%; left:20%; background: var(--prim); animation-delay: 0s; }
     .glow.g2{ top:12%; left:80%; background: var(--sek);  animation-delay: 1.2s; }
+
     @keyframes float{
       from{ transform: translate(-50%,-52%) scale(1); }
       to  { transform: translate(-48%,-48%) scale(1.06); }
@@ -84,11 +85,13 @@
         linear-gradient(140deg, color-mix(in oklab, var(--prim) 75%, transparent), transparent 33%),
         linear-gradient(320deg, color-mix(in oklab, var(--sek) 75%, transparent), transparent 33%);
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
       pointer-events:none; opacity:.45;
     }
 
-    .header{ display:block; margin-bottom:12px; }
+    .header{ margin-bottom:12px; }
     h1{
       margin:0; font-size:1.12rem; letter-spacing:.2px; color:#f4f7ff; font-weight:800;
       text-shadow: 0 1px 0 rgba(0,0,0,.18);
@@ -97,21 +100,20 @@
 
     .cta{
       display:block; width:100%; text-align:center;
-      padding:16px 18px; border-radius:14px; text-decoration:none;
-      color:#07131f; font-weight:800; letter-spacing:.3px;
+      padding:16px 18px; border-radius:14px;
+      text-decoration:none; color:#07131f;
+      font-weight:800; letter-spacing:.3px;
       background: linear-gradient(135deg, var(--prim), var(--sek));
-      /*box-shadow:
-        0 10px 26px color-mix(in oklab, var(--prim) 22%, transparent),
-        0 8px 22px color-mix(in oklab, var(--sek) 18%, transparent);*/
-      transition: transform .06s ease, box-shadow .18s ease, filter .18s ease;
+      transition: transform .06s ease;
     }
     .cta:active{ transform: translateY(1px) scale(.992) }
 
     .meta{ margin-top:16px; color:var(--muted); font-size:.88rem; line-height:1.45 }
     .meta strong{ color:#f4f7ff }
+
     .tips{ margin-top:10px }
     .tips-title{
-      font-weight:800; color:#f4f7ff; letter-spacing:.2px; margin-bottom:6px;
+      font-weight:800; color:#f4f7ff; margin-bottom:6px;
     }
     .tip-item{
       position:relative; padding-left:18px; margin:6px 0;
@@ -123,37 +125,34 @@
       font-weight:900;
     }
   </style>
-  
-<!-- Kopf für DP_Aktuell_Anita_Cseke.html - vor 
+
   <!-- Open Graph / WhatsApp Preview -->
   <meta property="og:title" content="DP_Aktuell_Anita_Cseke">
   <meta property="og:description" content="Aktueller Dienstplan">
   <meta property="og:image" content="https://cleando-ws.github.io/dp_intern/icon-512.png?v=01">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://cleando-ws.github.io/dp_intern/DP_Aktuell_Anita_Cseke.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://cleando-ws.github.io/dp_intern/icon-512.png?v=01">
 
-</head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<!-- iOS -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="DP_Aktuell_Anita_Cseke">
-<link rel="apple-touch-icon" href="/dp_intern/icon-192.png?v=01">
-<!-- Android / PWA -->
-<link rel="manifest" href="/dp_intern/manifest/manifest_DP_Aktuell_Anita_Cseke.json?v=01">
-<meta name="theme-color" content="#ffffff">
-<!-- Service Worker (optional) -->
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/dp_intern/sw.js?v=01').catch(console.error);
-}
-</script>
+  <!-- iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="DP_Aktuell_Anita_Cseke">
+  <link rel="apple-touch-icon" href="/dp_intern/icon-192.png?v=01">
+
+  <!-- Android / PWA -->
+  <link rel="manifest" href="/dp_intern/manifest/manifest_DP_Aktuell_Anita_Cseke.json?v=01">
+  <meta name="theme-color" content="#ffffff">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/dp_intern/sw.js?v=01').catch(console.error);
+    }
+  </script>
 
 </head>
+
 <body>
   <div class="glow g1"></div>
   <div class="glow g2"></div>
@@ -165,25 +164,32 @@ if ('serviceWorker' in navigator) {
         <div class="sub" id="info">Der Link wird automatisch aktualisiert.</div>
       </div>
 
-      <a id="cta" class="cta" href="#" target="_blank" rel="noopener">ÖFFNEN</a>
+      <a id="cta" class="cta" href="#" rel="noopener">ÖFFNEN</a>
 
       <div class="meta">
-        <div><strong>Datei:</strong> <span id="fname">DP_Aktuell_Mitarbeitername.pdf</span></div>
+        <div><strong>Datei:</strong> <span id="fname">DP_Aktuell_Anita_Cseke.pdf</span></div>
 
         <div class="tips">
           <div class="tips-title" id="tips-title">Tipps:</div>
-          <div class="tip-item" id="tipp1">Als Favorit speichern – der Link bleibt dauerhaft gleich.</div>
-          <div class="tip-item" id="tipp2">Zum Startbildschirm hinzufügen für schnellen Zugriff.</div>
-          <div class="tipp-item" id="hinweisAltplan"></div>
+          <div class="tip-item" id="tipp1"></div>
+          <div class="tip-item" id="tipp2"></div>
+          <div class="tip-item" id="hinweisAltplan"></div>
         </div>
       </div>
     </section>
   </div>
 
+  <!-- Base64 Decoder -->
   <script>
-    // Texte/Link einsetzen
+    function openPlan(encodedUrl) {
+      window.location.href = atob(encodedUrl);
+    }
+  </script>
+
+  <!-- Logik -->
+  <script>
     try {
-      document.title = TITEL_SEITE || document.title;
+      document.title = TITEL_SEITE;
 
       const $title = document.getElementById('title');
       const $info  = document.getElementById('info');
@@ -194,21 +200,48 @@ if ('serviceWorker' in navigator) {
       const $t2    = document.getElementById('tipp2');
       const $alt   = document.getElementById('hinweisAltplan');
 
-      if ($title) $title.textContent = DATEINAME_ANZEIGE || "Dienstplan";
-      if ($info)  $info.textContent  = INFO_TEXT || "Der Link wird automatisch aktualisiert.";
-      
+      if ($title) $title.textContent = DATEINAME_ANZEIGE;
+      if ($info)  $info.textContent  = INFO_TEXT;
+
       if ($cta){
-        $cta.textContent = (BUTTON_TEXT || "ÖFFNEN").toUpperCase();
-        $cta.href = LINK_ZUR_PDF || "#";
+        $cta.textContent = BUTTON_TEXT.toUpperCase();
+
+        const LINKS_URL = "/dp_intern/data/data.json?v=01";
+        const fileBase  = "DP_Aktuell_Anita_Cseke";
+
+        fetch(LINKS_URL, { cache: "no-cache" })
+          .then(res => res.json())
+          .then(list => {
+            const entry = list.find(x => x.file_base === fileBase);
+            if (entry && entry.url) {
+              const decodedUrl = atob(entry.url);
+              $cta.addEventListener("click", ev => {
+                ev.preventDefault();
+                window.location.href = decodedUrl;
+              });
+            } else {
+              throw new Error("Kein passender Eintrag gefunden");
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            $cta.addEventListener("click", ev => {
+              ev.preventDefault();
+              alert("Dienstplan-Link ist aktuell nicht verfügbar. Bitte später erneut versuchen.");
+            }, { once: true });
+          });
       }
-      if ($fname) $fname.textContent = (DATEINAME_ANZEIGE || "DP_Aktuell") + ".pdf";
-      if ($tHead) $tHead.textContent = TIPP_HEADLINE || "Tipps:";
-      if ($t1) $t1.textContent = TIPP_1 || "";
-      if ($t2) $t2.textContent = TIPP_2 || "";
-      if ($alt) $alt.textContent = HINWEIS_ALTPLAN || "";
+
+      if ($fname) $fname.textContent = DATEINAME_ANZEIGE + ".pdf";
+      if ($tHead) $tHead.textContent = TIPP_HEADLINE;
+      if ($t1)   $t1.textContent = TIPP_1;
+      if ($t2)   $t2.textContent = TIPP_2;
+      if ($alt)  $alt.textContent = HINWEIS_ALTPLAN;
+
     } catch (e){
       console.error(e);
     }
   </script>
+
 </body>
 </html>

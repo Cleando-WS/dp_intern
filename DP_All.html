@@ -27,82 +27,219 @@
   <meta name="twitter:image" content="https://cleando-ws.github.io/dp_intern/icon-512.png?v=01">
 
   <style>
-    :root { --bg:#0b1220; --card:#111827; --fg:#e7eefb; --muted:#98a2b3; --brand:#3b82f6; }
-    * { box-sizing:border-box; }
-    html, body { height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--fg); }
-    .wrap { min-height:100%; display:flex; align-items:center; justify-content:center; padding:24px; }
-    .card { width:min(760px,92%); background:var(--card); border:1px solid var(--brand); border-radius:18px; padding:22px; box-shadow:0 12px 40px rgba(0,0,0,.45); }
-    h1 { margin:0 0 6px 0; font-size:1.25rem; letter-spacing:.2px; }
-    .muted { color:var(--muted); margin:0 0 16px 0; }
-    .row { display:flex; gap:12px; margin:12px 0; flex-wrap:wrap; }
-    .row > * { flex:1 1 220px; }
-
-    /* Dropdown-Button */
-    .selector {
-      width:100%; display:flex; align-items:center; justify-content:space-between;
-      padding:12px 14px; border-radius:12px; border:1px solid #263247;
-      background:#0f172a; color:var(--fg); cursor:pointer; font-weight:600;
+    :root{
+      --bg:    #0b1220;
+      --card:  #111827;
+      --fg:    #e7eefb;
+      --muted: #98a2b3;
+      --brand: #3b82f6;
     }
-    .placeholder { color:#7f8aa0; }
-    .chev { opacity:.7; font-size:1.05rem; }
 
-    /* Panel (Dropdown-Liste) */
-    .panel {
-      display:none; /* initial zu */
-      margin-top:10px; border:1px solid #263247; border-radius:12px; background:#0f172a;
+    *{ box-sizing:border-box; }
+
+    html, body{
+      height:100%;
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--fg);
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:min(760px,92%);
+      background:var(--card);
+      border:1px solid var(--brand);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 12px 40px rgba(0,0,0,.45);
+    }
+
+    h1{
+      margin:0 0 6px 0;
+      font-size:1.25rem;
+      letter-spacing:.2px;
+    }
+
+    .muted{
+      color:var(--muted);
+      margin:0 0 16px 0;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+      margin:12px 0;
+      flex-wrap:wrap;
+    }
+
+    .row > *{
+      flex:1 1 220px;
+    }
+
+    /* Dropdown Button */
+    .selector{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid #263247;
+      background:#0f172a;
+      color:var(--fg);
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .placeholder{
+      color:#7f8aa0;
+    }
+
+    .chev{
+      opacity:.7;
+      font-size:1.05rem;
+    }
+
+    /* Panel (Dropdown Liste) */
+    .panel{
+      display:none;
+      margin-top:10px;
+      border:1px solid #263247;
+      border-radius:12px;
+      background:#0f172a;
       padding:10px;
     }
-    .panel.open { display:block; }
-    .search { width:100%; padding:10px 12px; border-radius:10px; border:1px solid #263247; background:#0e1527; color:var(--fg); outline:none; }
-    .listbox { margin-top:10px; max-height:360px; overflow:auto; border-radius:10px; }
-    .item { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border-radius:10px; cursor:pointer; user-select:none; }
-    .item:hover { background:#0d1b34; }
-    .item.active { outline:2px solid #3b82f6; background:#0d1b34; }
-    .empty { color:var(--muted); padding:12px; text-align:center; }
 
-    button { width:100%; padding:12px 16px; border-radius:12px; border:1px solid transparent; font-weight:700; cursor:pointer; }
-    .primary { background:linear-gradient(135deg,#22c55e,#38bdf8); color:#07131f; }
-    .secondary { background:#0f172a; color:var(--fg); border-color:#263247; }
-    .status { min-height:20px; font-size:.9rem; color:var(--muted); margin-top:6px; }
-    .footer { margin-top:16px; font-size:.85rem; color:var(--muted); }
+    .panel.open{
+      display:block;
+    }
+
+    .search{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #263247;
+      background:#0e1527;
+      color:var(--fg);
+      outline:none;
+    }
+
+    .listbox{
+      margin-top:10px;
+      max-height:360px;
+      overflow:auto;
+      border-radius:10px;
+    }
+
+    .item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    .item:hover{
+      background:#0d1b34;
+    }
+
+    .item.active{
+      outline:2px solid #3b82f6;
+      background:#0d1b34;
+    }
+
+    .empty{
+      color:var(--muted);
+      padding:12px;
+      text-align:center;
+    }
+
+    button{
+      width:100%;
+      padding:12px 16px;
+      border-radius:12px;
+      border:1px solid transparent;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .primary{
+      background:linear-gradient(135deg,#22c55e,#38bdf8);
+      color:#07131f;
+    }
+
+    .secondary{
+      background:#0f172a;
+      color:var(--fg);
+      border-color:#263247;
+    }
+
+    .status{
+      min-height:20px;
+      font-size:.9rem;
+      color:var(--muted);
+      margin-top:6px;
+    }
+
+    .footer{
+      margin-top:16px;
+      font-size:.85rem;
+      color:var(--muted);
+    }
   </style>
 
   <script>
-    const LINKS_URL = "/dp_intern/links/Onedrive-Links.json?v=01";
-    const KEY_LAST  = "dp_all_last"; // wir speichern weiterhin nach Auswahl, lesen es aber NICHT beim Start
+    // Quelle der Tabelle
+    const LINKS_URL = "/dp_intern/data/data.json?v=01";
+
+    // Wird beim Auswählen weiterhin geschrieben, aber nicht mehr automatisch ausgelesen
+    const KEY_LAST = "dp_all_last";
+
     const $  = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
 
-    function absoluteUrl(fileBase) {
+    function absoluteUrl(fileBase){
       return new URL("/dp_intern/" + fileBase + ".html", location.origin).href;
     }
 
-    let items = [], filtered = [];
+    let items    = [];
+    let filtered = [];
     let selected = null; // {display_name, file_base}
 
-    function setSelectorLabel(name) {
+    function setSelectorLabel(name){
       const label = $('#selectorLabel');
       const isPlaceholder = !name;
       label.textContent = isPlaceholder ? 'Mitarbeiter wählen' : name;
       label.classList.toggle('placeholder', isPlaceholder);
     }
 
-    function togglePanel() {
-      $('.panel').classList.toggle('open');
-      if ($('.panel').classList.contains('open')) {
+    function togglePanel(){
+      const panel = $('.panel');
+      panel.classList.toggle('open');
+      if (panel.classList.contains('open')){
         $('#search').focus();
       }
     }
 
-    function closePanel() {
+    function closePanel(){
       $('.panel').classList.remove('open');
     }
 
-    function renderList() {
+    function renderList(){
       const box = $('.listbox');
       box.innerHTML = '';
 
-      if (!filtered.length) {
+      if (!filtered.length){
         const d = document.createElement('div');
         d.className = 'empty';
         d.textContent = 'Keine Ergebnisse';
@@ -110,15 +247,14 @@
         return;
       }
 
-      // Keine Vorauswahl mehr. Nur markieren, wenn 'selected' gesetzt ist.
-      for (const it of filtered) {
+      for (const it of filtered){
         const row = document.createElement('div');
         row.className = 'item';
         row.tabIndex = 0;
         row.dataset.fileBase = it.file_base;
         row.innerHTML = `<span>${it.display_name}</span><span style="opacity:.6">›</span>`;
 
-        if (selected && selected.file_base === it.file_base) {
+        if (selected && selected.file_base === it.file_base){
           row.classList.add('active');
         }
 
@@ -131,15 +267,17 @@
       }
     }
 
-    function applyFilter() {
+    function applyFilter(){
       const q = $('#search').value.trim().toLowerCase();
-      filtered = q ? items.filter(x => x.display_name.toLowerCase().includes(q)) : items.slice();
+      filtered = q
+        ? items.filter(x => x.display_name.toLowerCase().includes(q))
+        : items.slice();
       renderList();
     }
 
-    function choose(it) {
+    function choose(it){
       selected = it;
-      // Speichern weiterhin erlaubt – aber beim Start wird NICHT ausgelesen.
+      // weiter speichern erlaubt, aber beim Start nicht mehr genutzt
       localStorage.setItem(KEY_LAST, it.file_base);
       setSelectorLabel(it.display_name);
       closePanel();
@@ -148,53 +286,68 @@
       });
     }
 
-    async function loadList() {
+    async function loadList(){
       const st = $('.status');
-      try {
+      try{
         st.textContent = 'Lade Liste…';
-        const res = await fetch(LINKS_URL, { cache: 'no-cache' });
+        const res = await fetch(LINKS_URL, { cache:'no-cache' });
         if (!res.ok) throw 0;
         const arr = await res.json();
 
         items = (arr || [])
           .filter(x => x.display_name && x.file_base)
-          .map(x => ({ display_name: x.display_name, file_base: x.file_base }))
-          .sort((a, b) => a.display_name.localeCompare(b.display_name, 'de', { sensitivity: 'base' }));
+          .map(x => ({
+            display_name: x.display_name,
+            file_base:    x.file_base
+          }))
+          .sort((a, b) =>
+            a.display_name.localeCompare(b.display_name, 'de', { sensitivity:'base' })
+          );
 
         filtered = items.slice();
 
-        // IMMER mit Platzhalter starten – NICHT aus localStorage vorwählen.
+        // immer mit Platzhalter starten, keine Vorauswahl
         selected = null;
         setSelectorLabel(null);
 
         st.textContent = '';
         renderList();
-      } catch {
+      } catch(e){
+        console.error(e);
         st.textContent = 'Liste konnte nicht geladen werden.';
       }
     }
 
-    function openSelected() {
-      if (!selected) { alert('Bitte zuerst Mitarbeiter wählen.'); return; }
+    function openSelected(){
+      if (!selected){
+        alert('Bitte zuerst Mitarbeiter wählen.');
+        return;
+      }
       location.href = "/dp_intern/" + selected.file_base + ".html";
     }
 
-    async function copySelected() {
-      if (!selected) { alert('Bitte zuerst Mitarbeiter wählen.'); return; }
+    async function copySelected(){
+      if (!selected){
+        alert('Bitte zuerst Mitarbeiter wählen.');
+        return;
+      }
       const url = absoluteUrl(selected.file_base);
-      const st = $('.status');
-      try {
-        if (navigator.clipboard?.writeText) {
+      const st  = $('.status');
+      try{
+        if (navigator.clipboard?.writeText){
           await navigator.clipboard.writeText(url);
         } else {
           const ta = document.createElement('textarea');
-          ta.value = url; document.body.appendChild(ta);
-          ta.select(); document.execCommand('copy');
+          ta.value = url;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
           document.body.removeChild(ta);
         }
         st.textContent = 'Link kopiert.';
         setTimeout(() => st.textContent = '', 2000);
-      } catch {
+      } catch(e){
+        console.error(e);
         st.textContent = 'Kopieren nicht möglich.';
       }
     }
@@ -202,7 +355,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadList();
 
-      // Dropdown-Button
+      // Dropdown Button
       $('#selector').addEventListener('click', togglePanel);
 
       // Suche im Panel
@@ -216,14 +369,16 @@
       document.addEventListener('click', (e) => {
         const panel = $('.panel');
         const selBtn = $('#selector');
-        if (!panel.contains(e.target) && !selBtn.contains(e.target)) {
+        if (!panel.contains(e.target) && !selBtn.contains(e.target)){
           closePanel();
         }
       });
 
       // Service Worker
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/dp_intern/sw.js?v=01').catch(console.error);
+      if ('serviceWorker' in navigator){
+        navigator.serviceWorker
+          .register('/dp_intern/sw.js?v=01')
+          .catch(console.error);
       }
     });
   </script>
@@ -234,7 +389,7 @@
       <h1>Dienstpläne</h1>
       <p class="muted">Mitarbeiter auswählen und Dienstplan öffnen oder Link kopieren.</p>
 
-      <!-- Dropdown-Button (geschlossen, zeigt Platzhalter/Name) -->
+      <!-- Dropdown Button -->
       <div class="row">
         <button id="selector" type="button" class="selector" aria-haspopup="listbox" aria-expanded="false">
           <span id="selectorLabel" class="placeholder">Mitarbeiter wählen</span>
@@ -242,7 +397,7 @@
         </button>
       </div>
 
-      <!-- Panel mit Suche + scrollbarer Liste (anfangs verborgen) -->
+      <!-- Panel mit Suche und Liste -->
       <div class="panel" role="region" aria-label="Auswahl">
         <input id="search" class="search" type="text" placeholder="Suche nach Name …" aria-label="Suche">
         <div class="listbox" role="listbox" aria-label="Mitarbeiterliste"></div>
@@ -259,4 +414,3 @@
   </main>
 </body>
 </html>
-
