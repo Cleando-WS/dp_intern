@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DP_Aktuell_Izabella_Datner_Dima</title>
+
+  <!-- ==================================================
+       KONFIGURATION
+       ================================================== -->
+  <style id="config-colors">
+    :root{
+      --bg-base: #0b1220;
+      --text:    #e7eefb;
+      --muted:   #9db0c7;
+      --prim:    #22c55e;
+      --sek:     #38bdf8;
+      --a1:      #9bffb0;
+      --a2:      #b4e7ff;
+    }
+  </style>
+
+  <!-- Texte/Links -->
+  <script>
+    const TITEL_SEITE       = "DP_Aktuell_Izabella_Datner_Dima";
+    const DATEINAME_ANZEIGE = "DP_Aktuell_Izabella_Datner_Dima";
+    const BUTTON_TEXT       = "Dienstplan öffnen";
+    const INFO_TEXT         = "Tippe auf Öffnen. Der Link zeigt immer die aktuelle Version des Dienstplans.";
+    const TIPP_HEADLINE     = "Tipps:";
+    const TIPP_1            = "Als Favorit speichern – der Link bleibt dauerhaft gleich.";
+    const TIPP_2            = "Zum Startbildschirm hinzufügen für schnellen Zugriff.";
+    const HINWEIS_ALTPLAN   = "Nach der Aktualisierung auf die nächste Woche kannst du ältere Dienstpläne bei Bedarf jederzeit anfordern.";
+  </script>
+
+  <!-- ==================================================
+       DESIGN
+       ================================================== -->
+  <style>
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',Arial,'Noto Sans',sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 450px at 15% -10%, color-mix(in oklab, var(--sek) 30%, transparent), transparent 60%),
+        radial-gradient(900px 450px at 85% -10%, color-mix(in oklab, var(--prim) 30%, transparent), transparent 60%),
+        linear-gradient(180deg, color-mix(in oklab, var(--bg-base) 92%, #000 8%), var(--bg-base));
+      display:flex;align-items:center;justify-content:center;padding:28px;
+      overflow:hidden;
+    }
+
+    .glow{
+      position:fixed;inset:auto;
+      width:60vmax;height:60vmax;border-radius:50%;
+      filter: blur(60px);opacity:.22;pointer-events:none;
+      transform: translate(-50%,-50%);
+      animation: float 12s ease-in-out infinite alternate;
+      z-index:0;
+    }
+    .glow.g1{ top:20%; left:20%; background: var(--prim); animation-delay: 0s; }
+    .glow.g2{ top:12%; left:80%; background: var(--sek); animation-delay: 1.2s; }
+
+    @keyframes float{
+      from{ transform: translate(-50%,-52%) scale(1); }
+      to  { transform: translate(-48%,-48%) scale(1.06); }
+    }
+
+    .wrap{ position:relative; z-index:1; width:min(640px,100%); }
+
+    .card{
+      position:relative;
+      background: color-mix(in oklab, #111827 84%, #0b1220 16%);
+      border-radius:22px;
+      padding:26px 24px 22px;
+      border:1px solid color-mix(in oklab, var(--sek) 20%, transparent);
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:-1px; border-radius:22px; padding:1px;
+      background:
+        linear-gradient(140deg, color-mix(in oklab, var(--prim) 75%, transparent), transparent 33%),
+        linear-gradient(320deg, color-mix(in oklab, var(--sek) 75%, transparent), transparent 33%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events:none; opacity:.45;
+    }
+
+    .header{ margin-bottom:12px; }
+    h1{
+      margin:0; font-size:1.12rem; letter-spacing:.2px; color:#f4f7ff; font-weight:800;
+      text-shadow: 0 1px 0 rgba(0,0,0,.18);
+    }
+    .sub{ margin:6px 0 16px 0; color:var(--muted); font-size:.95rem }
+
+    .cta{
+      display:block; width:100%; text-align:center;
+      padding:16px 18px; border-radius:14px;
+      text-decoration:none; color:#07131f;
+      font-weight:800; letter-spacing:.3px;
+      background: linear-gradient(135deg, var(--prim), var(--sek));
+      transition: transform .06s ease;
+    }
+    .cta:active{ transform: translateY(1px) scale(.992) }
+
+    .meta{ margin-top:16px; color:var(--muted); font-size:.88rem; line-height:1.45 }
+    .meta strong{ color:#f4f7ff }
+
+    .tips{ margin-top:10px }
+    .tips-title{
+      font-weight:800; color:#f4f7ff; margin-bottom:6px;
+    }
+    .tip-item{
+      position:relative; padding-left:18px; margin:6px 0;
+    }
+    .tip-item::before{
+      content:"•";
+      position:absolute; left:0; top:0;
+      color: color-mix(in oklab, var(--sek) 70%, var(--prim) 30%);
+      font-weight:900;
+    }
+  </style>
+
+  <!-- Open Graph / WhatsApp Preview -->
+  <meta property="og:title" content="DP_Aktuell_Izabella_Datner_Dima">
+  <meta property="og:description" content="Aktueller Dienstplan">
+  <meta property="og:image" content="https://cleando-ws.github.io/dp_intern/icon-512.png?v=01">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://cleando-ws.github.io/dp_intern/icon-512.png?v=01">
+
+  <!-- iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="DP_Aktuell_Izabella_Datner_Dima">
+  <link rel="apple-touch-icon" href="/dp_intern/icon-192.png?v=01">
+
+  <!-- Android / PWA -->
+  <link rel="manifest" href="/dp_intern/manifest/manifest_DP_Aktuell_Izabella_Datner_Dima.json?v=01">
+  <meta name="theme-color" content="#ffffff">
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/dp_intern/sw.js?v=01').catch(console.error);
+    }
+  </script>
+
+</head>
+
+<body>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+
+  <div class="wrap">
+    <section class="card" role="region" aria-labelledby="title">
+      <div class="header">
+        <h1 id="title">Dienstplan</h1>
+        <div class="sub" id="info">Der Link wird automatisch aktualisiert.</div>
+      </div>
+
+      <a id="cta" class="cta" href="#" rel="noopener">ÖFFNEN</a>
+
+      <div class="meta">
+        <div><strong>Datei:</strong> <span id="fname">DP_Aktuell_Izabella_Datner_Dima.pdf</span></div>
+
+        <div class="tips">
+          <div class="tips-title" id="tips-title">Tipps:</div>
+          <div class="tip-item" id="tipp1"></div>
+          <div class="tip-item" id="tipp2"></div>
+          <div class="tip-item" id="hinweisAltplan"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Base64 Decoder -->
+  <script>
+    function openPlan(encodedUrl) {
+      window.location.href = atob(encodedUrl);
+    }
+  </script>
+
+  <!-- Logik -->
+  <script>
+    try {
+      document.title = TITEL_SEITE;
+
+      const $title = document.getElementById('title');
+      const $info  = document.getElementById('info');
+      const $cta   = document.getElementById('cta');
+      const $fname = document.getElementById('fname');
+      const $tHead = document.getElementById('tips-title');
+      const $t1    = document.getElementById('tipp1');
+      const $t2    = document.getElementById('tipp2');
+      const $alt   = document.getElementById('hinweisAltplan');
+
+      if ($title) $title.textContent = DATEINAME_ANZEIGE;
+      if ($info)  $info.textContent  = INFO_TEXT;
+
+      if ($cta){
+        $cta.textContent = BUTTON_TEXT.toUpperCase();
+
+        const LINKS_URL = "/dp_intern/data/data.json?v=01";
+        const fileBase  = "DP_Aktuell_Izabella_Datner_Dima";
+
+        fetch(LINKS_URL, { cache: "no-cache" })
+          .then(res => res.json())
+          .then(list => {
+            const entry = list.find(x => x.file_base === fileBase);
+            if (entry && entry.url) {
+              const decodedUrl = atob(entry.url);
+              $cta.addEventListener("click", ev => {
+                ev.preventDefault();
+                window.location.href = decodedUrl;
+              });
+            } else {
+              throw new Error("Kein passender Eintrag gefunden");
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            $cta.addEventListener("click", ev => {
+              ev.preventDefault();
+              alert("Dienstplan-Link ist aktuell nicht verfügbar. Bitte später erneut versuchen.");
+            }, { once: true });
+          });
+      }
+
+      if ($fname) $fname.textContent = DATEINAME_ANZEIGE + ".pdf";
+      if ($tHead) $tHead.textContent = TIPP_HEADLINE;
+      if ($t1)   $t1.textContent = TIPP_1;
+      if ($t2)   $t2.textContent = TIPP_2;
+      if ($alt)  $alt.textContent = HINWEIS_ALTPLAN;
+
+    } catch (e){
+      console.error(e);
+    }
+  </script>
+
+</body>
+</html>
